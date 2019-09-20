@@ -672,6 +672,7 @@ enable_option_checking
 enable_stow
 with_arch
 enable_print_device_tree
+enable_debug_information
 enable_optional_subprojects
 enable_vm
 enable_logo
@@ -1322,6 +1323,8 @@ Optional Features:
   --enable-stow           Enable stow-based install
   --enable-print-device-tree
                           Print DTS when booting
+  --enable-debug-information
+                          Include debug information in the binary
   --enable-optional-subprojects
                           Enable all optional subprojects
   --disable-vm            Disable virtual memory
@@ -4095,8 +4098,20 @@ $as_echo "#define PK_PRINT_DEVICE_TREE /**/" >>confdefs.h
 
 fi
 
+# Check whether --enable-debug-information was given.
+if test "${enable_debug_information+set}" = set; then :
+  enableval=$enable_debug_information;
+fi
+
+
 CFLAGS="-Wall -Werror -D__NO_INLINE__ -mcmodel=medany -O2 -std=gnu99 -Wno-unused -Wno-attributes -fno-delete-null-pointer-checks -fno-PIE"
 LDFLAGS="$LDFLAGS -Wl,--build-id=none"
+
+if test "x$enable_debug_information" == "xyes"; then :
+
+  CFLAGS="-Wall -Werror -D__NO_INLINE__ -mcmodel=medany -std=gnu99 -Wno-unused -Wno-attributes -fno-delete-null-pointer-checks -fno-PIE -O0 -g"
+
+fi
 
 
 
